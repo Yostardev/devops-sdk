@@ -26,6 +26,7 @@ type ProductServiceClient interface {
 	Create(ctx context.Context, in *ProductCreateRequest, opts ...grpc.CallOption) (*ProductResponse, error)
 	GetObjectMeta(ctx context.Context, in *ProductObjectMetaRequest, opts ...grpc.CallOption) (*ProductObjectMetaResponse, error)
 	DownloadFile(ctx context.Context, in *ProductDownloadRequest, opts ...grpc.CallOption) (ProductService_DownloadFileClient, error)
+	DeleteCollection(ctx context.Context, in *ProductObjectDeleteRequest, opts ...grpc.CallOption) (*ProductObjectDeleteResponse, error)
 }
 
 type productServiceClient struct {
@@ -95,6 +96,15 @@ func (x *productServiceDownloadFileClient) Recv() (*ProductDownloadResponse, err
 	return m, nil
 }
 
+func (c *productServiceClient) DeleteCollection(ctx context.Context, in *ProductObjectDeleteRequest, opts ...grpc.CallOption) (*ProductObjectDeleteResponse, error) {
+	out := new(ProductObjectDeleteResponse)
+	err := c.cc.Invoke(ctx, "/artifact.ProductService/DeleteCollection", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // ProductServiceServer is the server API for ProductService service.
 // All implementations must embed UnimplementedProductServiceServer
 // for forward compatibility
@@ -103,6 +113,7 @@ type ProductServiceServer interface {
 	Create(context.Context, *ProductCreateRequest) (*ProductResponse, error)
 	GetObjectMeta(context.Context, *ProductObjectMetaRequest) (*ProductObjectMetaResponse, error)
 	DownloadFile(*ProductDownloadRequest, ProductService_DownloadFileServer) error
+	DeleteCollection(context.Context, *ProductObjectDeleteRequest) (*ProductObjectDeleteResponse, error)
 	mustEmbedUnimplementedProductServiceServer()
 }
 
@@ -121,6 +132,9 @@ func (UnimplementedProductServiceServer) GetObjectMeta(context.Context, *Product
 }
 func (UnimplementedProductServiceServer) DownloadFile(*ProductDownloadRequest, ProductService_DownloadFileServer) error {
 	return status.Errorf(codes.Unimplemented, "method DownloadFile not implemented")
+}
+func (UnimplementedProductServiceServer) DeleteCollection(context.Context, *ProductObjectDeleteRequest) (*ProductObjectDeleteResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteCollection not implemented")
 }
 func (UnimplementedProductServiceServer) mustEmbedUnimplementedProductServiceServer() {}
 
@@ -210,6 +224,24 @@ func (x *productServiceDownloadFileServer) Send(m *ProductDownloadResponse) erro
 	return x.ServerStream.SendMsg(m)
 }
 
+func _ProductService_DeleteCollection_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ProductObjectDeleteRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ProductServiceServer).DeleteCollection(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/artifact.ProductService/DeleteCollection",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ProductServiceServer).DeleteCollection(ctx, req.(*ProductObjectDeleteRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // ProductService_ServiceDesc is the grpc.ServiceDesc for ProductService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -228,6 +260,10 @@ var ProductService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetObjectMeta",
 			Handler:    _ProductService_GetObjectMeta_Handler,
+		},
+		{
+			MethodName: "DeleteCollection",
+			Handler:    _ProductService_DeleteCollection_Handler,
 		},
 	},
 	Streams: []grpc.StreamDesc{
