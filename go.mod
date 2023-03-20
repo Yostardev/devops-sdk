@@ -1,4 +1,4 @@
-module kit.yo-star.com/go-kit/devops-sdk
+module github.com/Yostardev/devops-sdk
 
 go 1.19
 
@@ -13,8 +13,7 @@ require (
 	golang.org/x/sys v0.0.0-20221010170243-090e33056c14 // indirect
 	golang.org/x/text v0.3.8 // indirect
 	google.golang.org/genproto v0.0.0-20221010155953-15ba04fc1c0e // indirect
-	k8s.io/api v0.22.2
-	kit.yo-star.com/go-kit/json v1.0.4
+	github.com/Yostardev/json v1.0.1
 )
 
 require (

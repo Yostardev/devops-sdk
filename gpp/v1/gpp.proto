@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package gpp;
 
-option go_package = "kit.yo-star.com/go-kit/devops-sdk/gpp/v1;gpp";
+option go_package = "github.com/Yostardev/devops-sdk/gpp/v1;gpp";
 
 message Game {
 

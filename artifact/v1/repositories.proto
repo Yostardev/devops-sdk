@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-option go_package = "kit.yo-star.com/go-kit/devops-sdk/artifacts/v1; artifact";
+option go_package = "github.com/Yostardev/devops-sdk/artifacts/v1; artifact";
 
 package artifact;
 

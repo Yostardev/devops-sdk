@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-option go_package = "kit.yo-star.com/go-kit/devops-sdk/general";
+option go_package = "github.com/Yostardev/devops-sdk/general";
 
 package general;
 
