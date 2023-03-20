@@ -1,0 +1,71 @@
+syntax = "proto3";
+
+option go_package = "kit.yo-star.com/go-kit/devops-sdk/artifacts/v1; artifact";
+
+package artifact;
+
+import "devops-sdk/general/paginate.proto";
+import "devops-sdk/general/gpp_info.proto";
+import "devops-sdk/general/request_id.proto";
+import "google/protobuf/timestamp.proto";
+
+
+service RepositoriesService {
+  rpc List(RepositoriesListRequest) returns (RepositoriesListResponse) {}
+  rpc Create(RepositoriesCreateRequest) returns (RepositoriesResponse) {}
+  rpc Get(RepositoriesGetRequest) returns (RepositoriesResponse) {}
+}
+
+message RepositoriesListRequest {
+  // @gotags: validate:"required"
+  general.GppInfo GppInfo = 1;
+  // @gotags: validate:"required"
+  general.PaginateQuery PaginateQuery = 2;
+  // @gotags: validate:"required"
+  general.RequestID RequestID = 3;
+}
+
+message RepositoriesCreateRequest {
+  // @gotags: validate:"required"
+  general.GppInfo GppInfo = 1;
+  // @gotags: validate:"required"
+  general.RequestID RequestID = 2;
+  // @gotags: validate:"required"
+  RepositoriesRequest Request = 3;
+}
+
+message RepositoriesRequest {
+  // @gotags: validate:"required"
+  string Name = 1;
+  // @gotags: validate:"required,oneof=image binary"
+  string RepositoriesType = 2;
+  // @gotags: validate:"required,oneof=dev test staging"
+  string Branch =3;
+}
+
+message RepositoriesResponse {
+  // @gotags: json:"id"
+  int64 ID = 1;
+  // @gotags: json:"created_at"
+  google.protobuf.Timestamp CreatedAt = 2;
+  // @gotags: json:"updated_at"
+  google.protobuf.Timestamp UpdatedAt = 3;
+  // @gotags: json:"name"
+  string Name = 4 ;
+  // @gotags: json:"repositories_address"
+  string RepositoriesAddress = 5;
+}
+
+message RepositoriesListResponse {
+  // @gotags: json:"paginate"
+  general.PaginateInfo Paginate = 1;
+  // @gotags: json:"items"
+  repeated RepositoriesResponse Items = 2;
+}
+
+message RepositoriesGetRequest {
+  // @gotags: validate:"required"
+  general.RequestID RequestID = 1;
+  // @gotags: validate:"required"
+  string RepositoriesName = 2;
+}

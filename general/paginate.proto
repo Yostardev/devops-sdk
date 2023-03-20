@@ -1,0 +1,28 @@
+syntax = "proto3";
+
+option go_package = "kit.yo-star.com/go-kit/devops-sdk/general";
+
+package general;
+
+message PaginateQuery {
+  int64 Page = 1; // 页码
+  int64 PageSize = 2; // 每页大小
+  string Order = 3; // 排序
+  string OrderBy = 4; // 排序对象
+  string Search = 5; // 模糊搜索
+  map<string, Param> Params = 6; // query对象字典
+  bool AllData = 7; // 是否查询全量数据
+}
+
+message Param {
+  repeated string Values = 1;
+}
+
+message PaginateInfo {
+  // @gotags: json:"page"
+  int64 Page = 1; // 页码
+  // @gotags: json:"page_size"
+  int64 PageSize = 2;// 每页大小
+  // @gotags: json:"total"
+  int64 Total = 3; // 数据总数
+} // 分页信息

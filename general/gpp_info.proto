@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+option go_package = "kit.yo-star.com/go-kit/devops-sdk/general";
+
+package general;
+
+message GppInfo {
+  string GameID = 1; // 游戏ID
+  string TeamID = 2; // 团队ID
+  string Cookie = 3; // Cookie
+  string Source = 4; // 请求来源
+  UserInfo UserInfo = 5; // 用户相关信息
+}
+
+message UserInfo{
+  string Uid = 1;
+  string Username = 2;
+  string Name = 3;
+  string NameFirstLetter = 4;
+  string Branch = 5;
+}

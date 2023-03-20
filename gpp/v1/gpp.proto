@@ -1,0 +1,59 @@
+syntax = "proto3";
+
+package gpp;
+
+option go_package = "kit.yo-star.com/go-kit/devops-sdk/gpp/v1;gpp";
+
+message Game {
+
+    // @gotags: validate:"required"
+    string game_id = 1;
+
+    // @gotags: validate:"required"
+    string game_name = 2;
+
+    // @gotags: validate:"required"
+    string game_short_name = 3;
+
+    int64 team_index = 4;
+
+    // @gotags: validate:"required"
+    string team_id = 5;
+
+    string team_name = 6;
+
+    // @gotags: validate:"required"
+    int64 game_region = 7;
+
+    // @gotags: validate:"required"
+    string game_region_desc = 8;
+}
+
+message User {
+
+    string uid = 1;
+
+    // @gotags: validate:"required"
+    string username = 2;
+
+    string name = 3;
+
+    string name_first_letter = 4;
+
+    string branch = 5;
+}
+
+message Info {
+
+    // @gotags: validate:"required"
+    Game game = 1; 
+
+    // @gotags: validate:"required"
+    User user = 2;
+
+    // @gotags: validate:"required"
+    string cookie = 3;
+
+    // @gotags: validate:"required"
+    string source = 4;
+}

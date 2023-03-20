@@ -1,0 +1,103 @@
+syntax = "proto3";
+
+option go_package = "kit.yo-star.com/go-kit/devops-sdk/artifacts/v1; artifact";
+
+package artifact;
+
+import "devops-sdk/general/paginate.proto";
+import "devops-sdk/general/gpp_info.proto";
+import "devops-sdk/general/request_id.proto";
+import "google/protobuf/timestamp.proto";
+
+service ProductService {
+  rpc List(ProductListRequest) returns (ProductListResponse) {}
+  rpc Create(ProductCreateRequest) returns (ProductResponse) {}
+  rpc GetObjectMeta(ProductObjectMetaRequest) returns (ProductObjectMetaResponse) {}
+  rpc DownloadFile(ProductDownloadRequest) returns (stream ProductDownloadResponse) {}
+}
+
+message ProductListRequest {
+  // @gotags: validate:"required"
+  general.GppInfo GppInfo = 1;
+  // @gotags: validate:"required"
+  general.PaginateQuery PaginateQuery = 2;
+  // @gotags: validate:"required"
+  general.RequestID RequestID = 3;
+}
+
+
+message ProductResponse {
+  // @gotags: json:"created_at"
+  google.protobuf.Timestamp CreatedAt = 1;
+  // @gotags: json:"updated_at"
+  google.protobuf.Timestamp UpdatedAt = 2;
+  // @gotags: json:"id"
+  int64 ID = 3;
+  // @gotags: json:"name"
+  string Name = 4;
+  // @gotags: json:"repositories_id"
+  int64 RepositoriesID = 5;
+  // @gotags: json:"branch"
+  string Branch = 6;
+  // @gotags: json:"url"
+  string Url = 7;
+}
+
+message ProductListResponse {
+  // @gotags: json:"paginate"
+  general.PaginateInfo Paginate = 1;
+  // @gotags: json:"items"
+  repeated ProductResponse Items = 2;
+}
+
+message ProductRequest {
+  // @gotags: json:"name" validate:"required"
+  string Name = 1;
+  // @gotags: json:"branch" validate:"required"
+  string Branch = 2;
+  // @gotags: json:"type" validate:"required,oneof=image binary"
+  string Type = 3;
+  // @gotags: json:"repositories_name" validate:"required"
+  string RepositoriesName = 4;
+  // @gotags: json:"url" validate:"required"
+  string Url = 5;
+}
+
+message ProductCreateRequest {
+  // @gotags: validate:"required"
+  general.GppInfo GppInfo = 1;
+  // @gotags: validate:"required"
+  general.RequestID RequestID = 2;
+  // @gotags: validate:"required"
+  ProductRequest Request = 3;
+}
+
+message ProductDownloadRequest {
+  // @gotags: validate:"required"
+  general.GppInfo GppInfo = 1;
+  // @gotags: validate:"required"
+  general.RequestID RequestID = 2;
+  // @gotags: validate:"required"
+  int64 ID = 3;
+}
+
+message ProductDownloadResponse {
+  // @gotags: json:"data"
+  bytes Data = 1;
+}
+
+message ProductObjectMetaRequest {
+  // @gotags: validate:"required"
+  int64 ID = 1;
+  // @gotags: validate:"required"
+  general.GppInfo GppInfo = 2;
+  // @gotags: validate:"required"
+  general.RequestID RequestID = 3;
+}
+
+message ProductObjectMetaResponse {
+  // @gotags: json:"HTTPHeaderContentLength"
+  string HTTPHeaderContentLength = 1;
+  // @gotags: json:"file_name"
+  string FileName = 2;
+}
