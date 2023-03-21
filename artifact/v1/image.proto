@@ -1,0 +1,81 @@
+syntax = "proto3";
+
+option go_package = "github.com/Yostardev/devops-sdk/artifacts/v1; artifact";
+
+package artifact;
+
+import "devops-sdk/general/paginate.proto";
+import "devops-sdk/general/gpp_info.proto";
+import "devops-sdk/general/request_id.proto";
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/empty.proto";
+
+service ImageService {
+  rpc List(ImageListRequest) returns (ImageListResponse) {}
+  rpc Create(ImageCreateRequest) returns (ImageResponse) {}
+  rpc DeleteCollection(ImageObjectDeleteRequest) returns (google.protobuf.Empty) {}
+}
+
+message ImageListRequest {
+  // @gotags: validate:"required"
+  general.GppInfo GppInfo = 1;
+  // @gotags: validate:"required"
+  general.PaginateQuery PaginateQuery = 2;
+  // @gotags: validate:"required"
+  general.RequestID RequestID = 3;
+}
+
+
+message ImageResponse {
+  // @gotags: json:"created_at"
+  google.protobuf.Timestamp CreatedAt = 1;
+  // @gotags: json:"updated_at"
+  google.protobuf.Timestamp UpdatedAt = 2;
+  // @gotags: json:"id"
+  int64 ID = 3;
+  // @gotags: json:"name"
+  string Name = 4;
+  // @gotags: json:"repositories_id"
+  int64 RepositoriesID = 5;
+  // @gotags: json:"branch"
+  string Branch = 6;
+  // @gotags: json:"address"
+  string Address = 7;
+  // @gotags: json:"tag"
+  string Tag = 8;
+}
+
+message ImageListResponse {
+  // @gotags: json:"paginate"
+  general.PaginateInfo Paginate = 1;
+  // @gotags: json:"items"
+  repeated ImageResponse Items = 2;
+}
+
+message ImageRequest {
+  // @gotags: json:"name" validate:"required"
+  string Name = 1;
+  // @gotags: json:"branch" validate:"required"
+  string Branch = 2;
+  // @gotags: json:"repositories_name" validate:"required"
+  string RepositoriesName = 4;
+  // @gotags: json:"address"
+  string Address = 5;
+}
+
+message ImageCreateRequest {
+  // @gotags: validate:"required"
+  general.GppInfo GppInfo = 1;
+  // @gotags: validate:"required"
+  general.RequestID RequestID = 2;
+  // @gotags: validate:"required"
+  ImageRequest Request = 3;
+}
+
+message ImageObjectDeleteRequest {
+  // @gotags: validate:"required"
+  general.RequestID RequestID = 1;
+  // @gotags: json:"branch" validate:"required,oneof=dev test"
+  string Branch =2;
+}
+

@@ -8,16 +8,17 @@ import "devops-sdk/general/paginate.proto";
 import "devops-sdk/general/gpp_info.proto";
 import "devops-sdk/general/request_id.proto";
 import "google/protobuf/timestamp.proto";
+import "google/protobuf/empty.proto";
 
-service ProductService {
-  rpc List(ProductListRequest) returns (ProductListResponse) {}
-  rpc Create(ProductCreateRequest) returns (ProductResponse) {}
-  rpc GetObjectMeta(ProductObjectMetaRequest) returns (ProductObjectMetaResponse) {}
-  rpc DownloadFile(ProductDownloadRequest) returns (stream ProductDownloadResponse) {}
-  rpc DeleteCollection(ProductObjectDeleteRequest) returns (ProductObjectDeleteResponse) {}
+service BinaryService {
+  rpc List(BinaryListRequest) returns (BinaryListResponse) {}
+  rpc Create(BinaryCreateRequest) returns (BinaryResponse) {}
+  rpc GetObjectMeta(BinaryObjectMetaRequest) returns (BinaryObjectMetaResponse) {}
+  rpc DownloadFile(BinaryDownloadRequest) returns (stream BinaryDownloadResponse) {}
+  rpc DeleteCollection(BinaryObjectDeleteRequest) returns (google.protobuf.Empty) {}
 }
 
-message ProductListRequest {
+message BinaryListRequest {
   // @gotags: validate:"required"
   general.GppInfo GppInfo = 1;
   // @gotags: validate:"required"
@@ -27,7 +28,7 @@ message ProductListRequest {
 }
 
 
-message ProductResponse {
+message BinaryResponse {
   // @gotags: json:"created_at"
   google.protobuf.Timestamp CreatedAt = 1;
   // @gotags: json:"updated_at"
@@ -40,40 +41,36 @@ message ProductResponse {
   int64 RepositoriesID = 5;
   // @gotags: json:"branch"
   string Branch = 6;
-  // @gotags: json:"url"
-  string Url = 7;
+  // @gotags: json:"relative_path"
+  string RelativePath = 7;
 }
 
-message ProductListResponse {
+message BinaryListResponse {
   // @gotags: json:"paginate"
   general.PaginateInfo Paginate = 1;
   // @gotags: json:"items"
-  repeated ProductResponse Items = 2;
+  repeated BinaryResponse Items = 2;
 }
 
-message ProductRequest {
+message BinaryRequest {
   // @gotags: json:"name" validate:"required"
   string Name = 1;
   // @gotags: json:"branch" validate:"required"
   string Branch = 2;
-  // @gotags: json:"type" validate:"required,oneof=image binary"
-  string Type = 3;
   // @gotags: json:"repositories_name" validate:"required"
   string RepositoriesName = 4;
-  // @gotags: json:"url" validate:"required"
-  string Url = 5;
 }
 
-message ProductCreateRequest {
+message BinaryCreateRequest {
   // @gotags: validate:"required"
   general.GppInfo GppInfo = 1;
   // @gotags: validate:"required"
   general.RequestID RequestID = 2;
   // @gotags: validate:"required"
-  ProductRequest Request = 3;
+  BinaryRequest Request = 3;
 }
 
-message ProductDownloadRequest {
+message BinaryDownloadRequest {
   // @gotags: validate:"required"
   general.GppInfo GppInfo = 1;
   // @gotags: validate:"required"
@@ -82,12 +79,12 @@ message ProductDownloadRequest {
   int64 ID = 3;
 }
 
-message ProductDownloadResponse {
+message BinaryDownloadResponse {
   // @gotags: json:"data"
   bytes Data = 1;
 }
 
-message ProductObjectMetaRequest {
+message BinaryObjectMetaRequest {
   // @gotags: validate:"required"
   int64 ID = 1;
   // @gotags: validate:"required"
@@ -96,22 +93,16 @@ message ProductObjectMetaRequest {
   general.RequestID RequestID = 3;
 }
 
-message ProductObjectMetaResponse {
+message BinaryObjectMetaResponse {
   // @gotags: json:"HTTPHeaderContentLength"
   string HTTPHeaderContentLength = 1;
   // @gotags: json:"file_name"
   string FileName = 2;
 }
 
-message ProductObjectDeleteRequest {
+message BinaryObjectDeleteRequest {
   // @gotags: validate:"required"
   general.RequestID RequestID = 1;
-  // @gotags: json:"type" validate:"required,oneof=image binary"
-  string Type = 2;
-  // @gotags: validate:"required,oneof=dev test"
+  // @gotags: json:"branch" validate:"required,oneof=dev test"
   string Branch =3;
-}
-
-message ProductObjectDeleteResponse {
-
 }
