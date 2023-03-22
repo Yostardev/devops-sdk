@@ -68,4 +68,6 @@ message RepositoriesGetRequest {
   general.RequestID RequestID = 1;
   // @gotags: validate:"required"
   string RepositoriesName = 2;
+  // @gotags: validate:"required,oneof=image binary"
+  string RepositoriesType = 3;
 }
