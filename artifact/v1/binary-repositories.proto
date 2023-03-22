@@ -1,0 +1,69 @@
+syntax = "proto3";
+
+option go_package = "github.com/Yostardev/devops-sdk/artifacts/v1; artifact";
+
+package artifact;
+
+import "devops-sdk/general/paginate.proto";
+import "devops-sdk/general/gpp_info.proto";
+import "devops-sdk/general/request_id.proto";
+import "google/protobuf/timestamp.proto";
+
+
+service BinaryRepositoriesService {
+  rpc List(BinaryRepositoriesListRequest) returns (BinaryRepositoriesListResponse) {}
+  rpc Create(BinaryRepositoriesCreateRequest) returns (BinaryRepositoriesResponse) {}
+  rpc Get(BinaryRepositoriesGetRequest) returns (BinaryRepositoriesResponse) {}
+}
+
+message BinaryRepositoriesListRequest {
+  // @gotags: validate:"required"
+  general.GppInfo GppInfo = 1;
+  // @gotags: validate:"required"
+  general.PaginateQuery PaginateQuery = 2;
+  // @gotags: validate:"required"
+  general.RequestID RequestID = 3;
+}
+
+message BinaryRepositoriesCreateRequest {
+  // @gotags: validate:"required"
+  general.GppInfo GppInfo = 1;
+  // @gotags: validate:"required"
+  general.RequestID RequestID = 2;
+  // @gotags: validate:"required"
+  BinaryRepositoriesRequest Request = 3;
+}
+
+message BinaryRepositoriesRequest {
+  // @gotags: validate:"required"
+  string Name = 1;
+  // @gotags: validate:"required,oneof=dev test staging"
+  string Branch = 2;
+}
+
+message BinaryRepositoriesResponse {
+  // @gotags: json:"id"
+  int64 ID = 1;
+  // @gotags: json:"created_at"
+  google.protobuf.Timestamp CreatedAt = 2;
+  // @gotags: json:"updated_at"
+  google.protobuf.Timestamp UpdatedAt = 3;
+  // @gotags: json:"name"
+  string Name = 4 ;
+  // @gotags: json:"repositories_address"
+  string BinaryRepositoriesAddress = 5;
+}
+
+message BinaryRepositoriesListResponse {
+  // @gotags: json:"paginate"
+  general.PaginateInfo Paginate = 1;
+  // @gotags: json:"items"
+  repeated BinaryRepositoriesResponse Items = 2;
+}
+
+message BinaryRepositoriesGetRequest {
+  // @gotags: validate:"required"
+  general.RequestID RequestID = 1;
+  // @gotags: validate:"required"
+  string RepositoriesName = 2;
+}

@@ -10,13 +10,13 @@ import "devops-sdk/general/request_id.proto";
 import "google/protobuf/timestamp.proto";
 
 
-service RepositoriesService {
-  rpc List(RepositoriesListRequest) returns (RepositoriesListResponse) {}
-  rpc Create(RepositoriesCreateRequest) returns (RepositoriesResponse) {}
-  rpc Get(RepositoriesGetRequest) returns (RepositoriesResponse) {}
+service ImageRepositoriesService {
+  rpc List(ImageRepositoriesListRequest) returns (ImageRepositoriesListResponse) {}
+  rpc Create(ImageRepositoriesCreateRequest) returns (ImageRepositoriesResponse) {}
+  rpc Get(ImageRepositoriesGetRequest) returns (ImageRepositoriesResponse) {}
 }
 
-message RepositoriesListRequest {
+message ImageRepositoriesListRequest {
   // @gotags: validate:"required"
   general.GppInfo GppInfo = 1;
   // @gotags: validate:"required"
@@ -25,25 +25,23 @@ message RepositoriesListRequest {
   general.RequestID RequestID = 3;
 }
 
-message RepositoriesCreateRequest {
+message ImageRepositoriesCreateRequest {
   // @gotags: validate:"required"
   general.GppInfo GppInfo = 1;
   // @gotags: validate:"required"
   general.RequestID RequestID = 2;
   // @gotags: validate:"required"
-  RepositoriesRequest Request = 3;
+  ImageRepositoriesRequest Request = 3;
 }
 
-message RepositoriesRequest {
+message ImageRepositoriesRequest {
   // @gotags: validate:"required"
   string Name = 1;
-  // @gotags: validate:"required,oneof=image binary"
-  string RepositoriesType = 2;
   // @gotags: validate:"required,oneof=dev test staging"
-  string Branch =3;
+  string Branch =2;
 }
 
-message RepositoriesResponse {
+message ImageRepositoriesResponse {
   // @gotags: json:"id"
   int64 ID = 1;
   // @gotags: json:"created_at"
@@ -56,18 +54,16 @@ message RepositoriesResponse {
   string RepositoriesAddress = 5;
 }
 
-message RepositoriesListResponse {
+message ImageRepositoriesListResponse {
   // @gotags: json:"paginate"
   general.PaginateInfo Paginate = 1;
   // @gotags: json:"items"
-  repeated RepositoriesResponse Items = 2;
+  repeated ImageRepositoriesResponse Items = 2;
 }
 
-message RepositoriesGetRequest {
+message ImageRepositoriesGetRequest {
   // @gotags: validate:"required"
   general.RequestID RequestID = 1;
   // @gotags: validate:"required"
   string RepositoriesName = 2;
-  // @gotags: validate:"required,oneof=image binary"
-  string RepositoriesType = 3;
 }
