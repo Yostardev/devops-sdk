@@ -63,7 +63,9 @@ message ImageRepositoriesListResponse {
 
 message ImageRepositoriesGetRequest {
   // @gotags: validate:"required"
-  general.RequestID RequestID = 1;
+  general.GppInfo GppInfo = 1;
   // @gotags: validate:"required"
-  string RepositoriesName = 2;
+  general.RequestID RequestID = 2;
+  // @gotags: validate:"required"
+  string RepositoriesName = 3;
 }
